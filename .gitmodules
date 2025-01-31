@@ -1,0 +1,6 @@
+[submodule "mis_client"]
+	path = mis_client
+	url = https://github.com/KudaChan/MIS-Client.git
+[submodule "mis_server"]
+	path = mis_server
+	url = https://github.com/KudaChan/MIS-Server.git
