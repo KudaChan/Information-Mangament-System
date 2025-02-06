@@ -1,0 +1,47 @@
+services:
+  client:
+    depends_on:
+      - server
+
+    build:
+      context: ./mis_client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+    environment:
+      - SERVER_URL=http://server:4000
+    develop:
+      watch:
+        - path: ./mis_client/package.json
+          action: rebuild
+        - path: ./mis_client/next.config.js
+          action: rebuild
+        # - path: ./mis_client/package-lock.json
+        #   action: rebuild
+        - path: ./mis_client
+          target: /usr/src/client
+          action: sync
+  server:
+    # depends_on:
+    #   - mongodb-server
+    build:
+      context: ./mis_server
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+
+    develop:
+      watch:
+        - path: ./mis_server/package.json
+          action: rebuild
+        - path: ./mis_server/nest-cli.json
+          action: rebuild
+        - path: ./mis_client/tsconfig.build.json
+          action: rebuild
+        - path: ./mis_server/src
+          target: /usr/src/server
+          action: sync
+    environment:
+      MONGO_WRL: mongodb+srv://kudachan:chan05dan@cluster0.qgpvfib.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
