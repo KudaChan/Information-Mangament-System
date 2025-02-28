@@ -21,6 +21,8 @@ services:
           target: /usr/src/client
           action: sync
   server:
+    depends_on:
+      - redis
     env_file:
       - path: ./mis_server/.env
         required: true
@@ -36,3 +38,8 @@ services:
         - path: ./mis_server/src
           target: /usr/src/server/src
           action: sync
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
